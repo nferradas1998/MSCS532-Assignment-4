@@ -8,91 +8,72 @@ class Task:
         task.arrival_time = arrival_time if arrival_time else time.time()  # Time task was added
         task.deadline = deadline  # Optional deadline for the task
     
-    def __lt__(self, other):
-        return self.priority < other.priority  # Min-heap comparison (lower priority first)
-
-    def __repr__(self):
-        return f"Task(ID: {self.task_id}, Priority: {self.priority}, Arrival: {self.arrival_time}, Deadline: {self.deadline})"
+    def __lt__(task, other): # using built-in "less than" comparator method for priority comparison
+        return task.priority < other.priority  
 
 class PriorityQueue:
     # Priority queue implemented as a binary heap
-    def __init__(self, is_max_heap=False):
-        self.heap = []  # List to store heap elements
-        self.is_max_heap = is_max_heap  # Boolean to determine if it's a max-heap or min-heap
+    def __init__(queue, is_max_heap=False): # Using __init__ method for automatic invocation
+        queue.heap = []  # List to store heap elements
+        queue.is_max_heap = is_max_heap  # Boolean to determine if it's a max-heap or min-heap
     
-    def insert(self, task):
+    def insert(queue, task):
         # Insert a new task into the heap
-        if self.is_max_heap:
+        if queue.is_max_heap:
             task.priority = -task.priority  # Convert to max-heap by negating priorities
-        self.heap.append(task)  # Add task to the end of the heap
-        self._heapify_up(len(self.heap) - 1)  # Restore heap property
+        queue.heap.append(task)  # Add task to the end of the heap
+        queue.heapify_up(len(queue.heap) - 1)  # Restore heap property
     
-    def extract(self):
+    def extract(queue):
         # Remove and return the highest/lowest priority task
-        if self.is_empty():
+        if queue.is_empty():
             return None
-        self._swap(0, len(self.heap) - 1)  # Swap root with last element
-        task = self.heap.pop()  # Remove last element (former root)
-        self._heapify_down(0)  # Restore heap property
-        if self.is_max_heap:
+        queue.swap(0, len(queue.heap) - 1)  # Swap root with last element
+        task = queue.heap.pop()  # Remove last element (former root)
+        queue.heapify_down(0)  # Restore heap property
+        if queue.is_max_heap:
             task.priority = -task.priority  # Restore original priority
         return task
     
-    def increase_decrease_key(self, task_id, new_priority):
+    def adjust_key(queue, task_id, new_priority):
         # Modify the priority of an existing task
-        for i, task in enumerate(self.heap):
+        for i, task in enumerate(queue.heap):
             if task.task_id == task_id:
-                if self.is_max_heap:
+                if queue.is_max_heap:
                     new_priority = -new_priority  # Adjust for max-heap
-                self.heap[i].priority = new_priority  # Update priority
-                self._heapify_up(i)  # Re-adjust heap upwards
-                self._heapify_down(i)  # Re-adjust heap downwards
+                queue.heap[i].priority = new_priority  # Update priority
+                queue.heapify_up(i)  # Re-adjust heap upwards
+                queue.heapify_down(i)  # Re-adjust heap downwards
                 return
     
-    def is_empty(self):
+    def is_empty(queue):
         # Check if the heap is empty
-        return len(self.heap) == 0
+        return len(queue.heap) == 0
     
-    def _heapify_up(self, index):
+    def heapify_up(queue, index):
         # Restore heap property by moving element up
         parent = (index - 1) // 2
-        while index > 0 and self.heap[index] < self.heap[parent]:
-            self._swap(index, parent)
+        while index > 0 and queue.heap[index] < queue.heap[parent]:
+            queue.swap(index, parent)
             index = parent
             parent = (index - 1) // 2
     
-    def _heapify_down(self, index):
+    def heapify_down(queue, index):
         # Restore heap property by moving element down
-        size = len(self.heap)
+        size = len(queue.heap)
         while True:
             left = 2 * index + 1  # Left child index
             right = 2 * index + 2  # Right child index
             smallest = index  # Assume current index is smallest
-            if left < size and self.heap[left] < self.heap[smallest]:
+            if left < size and queue.heap[left] < queue.heap[smallest]:
                 smallest = left
-            if right < size and self.heap[right] < self.heap[smallest]:
+            if right < size and queue.heap[right] < queue.heap[smallest]:
                 smallest = right
             if smallest == index:
                 break  # Heap property satisfied
-            self._swap(index, smallest)
+            queue.swap(index, smallest)
             index = smallest
     
-    def _swap(self, i, j):
+    def swap(queue, task1, task2):
         # Swap two elements in the heap
-        self.heap[i], self.heap[j] = self.heap[j], self.heap[i]
-    
-    def __repr__(self):
-        return str(self.heap)
-
-# Example Usage
-pq = PriorityQueue(is_max_heap=True)  # Create a max-heap priority queue
-
-pq.insert(Task(1, 5))  # Insert task with priority 5
-pq.insert(Task(2, 1))  # Insert task with priority 1
-pq.insert(Task(3, 8))  # Insert task with priority 8
-pq.insert(Task(4, 3))  # Insert task with priority 3
-
-print("Priority Queue after insertions:", pq)
-print("Extracted task:", pq.extract())  # Extract highest priority task
-pq.increase_decrease_key(2, 10)  # Modify priority of task ID 2
-print("Priority Queue after modifying priority:", pq)
+        queue.heap[task1], queue.heap[task2] = queue.heap[task2], queue.heap[task1]

@@ -1,0 +1,16 @@
+Report on priority queue
+
+For the implementation of the priority queue I decided to use an array to represent the data structure.
+There are multiple reasons as to why I thought this was the most appropriate decision
+
+1. Efficient Insertion and Extraction
+- Because arrays have indeces for the values stored, it provides an efficient way to insert and extract values from the array, hence
+    improving the performance of its main operaitons.
+
+2. Cache efficiency
+- Arrays always have better cache locality which means that the have better use of the CPU, which improves performance when accessing the CPU
+
+3. Optimized memory use
+- Arrays are just continous blocks of memory, and so there is no need to have pointers for blocks that are not contigous. This means that
+    there is no need for maintaining pointers and creating memory overload.
+

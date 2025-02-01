@@ -1,0 +1,25 @@
+Heapsort Time complexity analysis
+
+There is no variation in the time complexity of heapsort across use cases. There are two main components of the time complexity of heapsort
+The first one is the heap building, which is always going to be O(n) because it depeneds on the number of nodes that will be part of the heap.
+Because each node needs to be inserted individually, it will have a linear impact to the time complexity (as well as space complexity).
+
+Worst case scenario:
+
+This is best describe as the scenario where there is a max number of operaitons needed to complete the sorting. this will happen when we extract the root
+and heapify the heap. This will require the most amount of operations and hence it is the worst case.
+
+The time complexity of the sorting step will be O(n log n)
+
+this means the the total time complexity will be O(n) + O(n log n) = O(n log n)
+
+
+Average Case Scenario:
+
+Regardless of any difference in the input, the heap construction will still always be O(n), so we havce to look again into the sorting step.
+For this step it will still take O(n log n) which means that the total time complexity for the average case scenario is the same as the worst case
+O(n log n)
+
+Best case scenario:
+
+The best case scenario shares the same values as the previous two, and hence the time complexity is also O(n log n)

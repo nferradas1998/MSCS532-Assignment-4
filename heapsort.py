@@ -1,3 +1,5 @@
+import random
+
 def heapify(arr, n, i): # function to rearrange the elements of the heap
     largest = i  # Assume current node is the largest
     left = 2 * i + 1  # Left child index
@@ -31,9 +33,11 @@ def heapsort(arr):
         arr[i], arr[0] = arr[0], arr[i]  # Swap max element with last element
         heapify(arr, i, 0)  # Maintain max-heap property on reduced heap
 
+# method to generate a randomized array, where n is the size and m the max possible value
+def generate_random_array(n, m): 
+    return [random.randint(0, m) for _ in range(n)]
 
-
-arr = [12, 11, 13, 5, 6, 7]
-print("Original array:", arr)
+arr = generate_random_array(100, 300)
 heapsort(arr)
-print("Sorted array:", arr)
+
+print("Sorted Array", arr)
